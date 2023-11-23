@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Flask Feedback</title>
+		<link rel="stylesheet" href="/static/app.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+		<nav id="navbar">
+			<a id="home" href="/"><b>Flask Feedback</b></a>
+			<div>
+				{% if 'username' in session %}
+				  <a class="nav-item" href="/logout">Logout</a>
+				{% else %}
+				  <a class="nav-item" href="/login">Login</a>
+				{% endif %}
+			</div>
+		</nav>
+		<div id="content">
+			{% for category, msg in get_flashed_messages(with_categories=True) %}
+			<div class="msg-line {{category}}-back">
+                <p>
+                    <span class="{{category}}-content">msg</span>
+                </p>
+            </div>
+			{% endfor %}
+			{% block content %} {% endblock %}
+		</div>
+
+		<script src="https://unpkg.com/axios/dist/axios.js"></script>
+	</body>
+</html>
