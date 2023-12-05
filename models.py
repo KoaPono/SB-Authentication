@@ -34,15 +34,6 @@ class User(db.Model):
 
         db.session.add(user)
         return user
-    
-    @classmethod
-    def authenticate(cls, username, pwd):
-        """Validate user exists and password is correct"""
-        u = User.query.filter_by(username=username).first()
-        if u and bcrypt.check_password_hash(u.password, pwd):
-            return u
-        else:
-            return False
         
     @classmethod
     def authenticate(cls, username, password):
@@ -53,3 +44,15 @@ class User(db.Model):
             return user
         else:
             return False
+        
+class Feedback(db.Model):
+    __tablename__ = "feedback"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    username = db.Column(
+        db.String(20),
+        db.ForeignKey('users.username'),
+        nullable=False,
+    )
